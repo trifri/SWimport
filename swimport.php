@@ -2,15 +2,15 @@
 	<body>
 		<h1>Quick-and-easy information finder</h1>
 
-		<p>Get information about an actor, director or movie by typing the name below:</p>
+		<p>Get information about an actor, director, tv-show or movie by typing it below.</p>
 
 		<form action="?" method="get">
 			Search:  <input type="text" name="searchterm"> <br><br>
 			<input type="submit" value ="Submit">
 		</form>
 
-		<p>Results:
-		<?php echo isset($_GET['searchterm']) ? htmlspecialchars($_GET['searchterm']) : '';?></p> <!--Hva skjer her?-->
+		<p><strong>Results for 
+		<?php echo isset($_GET['searchterm']) ? htmlspecialchars($_GET['searchterm']) : '';?>:</strong></p> <!--Hva skjer her?-->
 
 
 
@@ -96,12 +96,14 @@
 	$responseArray = json_decode(request($requestURL),true); 
 
 
-
+	//Prints the information returned from DBpedia
+	if($searchterm != null && isset($responseArray["results"]["bindings"][0]["abstract"]["value"])){ 
+		echo $responseArray["results"]["bindings"][0]["abstract"]["value"];
+	} else echo "No results. Are you sure the spelling is correct?";
 
 
 	?>
 
-	<?php if($searchterm != null) echo "<h3>Abstract: </h3>" . $responseArray["results"]["bindings"][0]["abstract"]["value"]?><br/>
 
 
 	</body>
